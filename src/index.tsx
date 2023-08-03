@@ -10,7 +10,7 @@ interface SkeletonPlaceholderProps {
   children?: React.ReactElement;
 }
 
-const SkeletonPlaceholder: FC<SkeletonPlaceholderProps> = ({
+export const SkeletonPlaceholder: FC<SkeletonPlaceholderProps> = ({
   itemWidth,
   itemHeight,
   itemCount = 1,
@@ -65,5 +65,3 @@ const SkeletonPlaceholder: FC<SkeletonPlaceholderProps> = ({
 
   return <View style={[containerStyle]}>{renderSkeletons(children)}</View>;
 };
-
-export default SkeletonPlaceholder;

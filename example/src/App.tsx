@@ -1,31 +1,30 @@
 import * as React from 'react';
-
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'rn-skeleton-placeholder';
+import { StyleSheet, View } from 'react-native';
+import { SkeletonPlaceholder } from 'rn-skeleton-placeholder';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
-
-  React.useEffect(() => {
-    multiply(3, 7).then(setResult);
-  }, []);
-
   return (
-    <View style={styles.container}>
-      <Text>Result: {result}</Text>
+    <View style={styles.mainContainer}>
+      <SkeletonPlaceholder
+        itemCount={6}
+        itemHeight={20}
+        itemWidth={136}
+        containerStyle={styles.container}
+        itemStyle={styles.item}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  mainContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
+  container: { marginTop: 8 },
+  item: {
+    borderRadius: 8,
+    marginVertical: 4,
   },
 });

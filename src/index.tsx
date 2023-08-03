@@ -1,29 +1,69 @@
-import { NativeModules, Platform } from 'react-native';
+import React, { FC, useEffect, useRef } from 'react';
+import { Animated, View, ViewStyle } from 'react-native';
 
-const LINKING_ERROR =
-  `The package 'rn-skeleton-placeholder' doesn't seem to be linked. Make sure: \n\n` +
-  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
-  '- You rebuilt the app after installing the package\n' +
-  '- You are not using Expo Go\n';
-
-// @ts-expect-error
-const isTurboModuleEnabled = global.__turboModuleProxy != null;
-
-const RnSkeletonPlaceholderModule = isTurboModuleEnabled
-  ? require('./NativeRnSkeletonPlaceholder').default
-  : NativeModules.RnSkeletonPlaceholder;
-
-const RnSkeletonPlaceholder = RnSkeletonPlaceholderModule
-  ? RnSkeletonPlaceholderModule
-  : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
-
-export function multiply(a: number, b: number): Promise<number> {
-  return RnSkeletonPlaceholder.multiply(a, b);
+interface SkeletonPlaceholderProps {
+  itemWidth: number | string;
+  itemHeight: number | string;
+  itemCount?: number;
+  containerStyle?: ViewStyle;
+  itemStyle?: ViewStyle;
+  children?: React.ReactElement;
 }
+
+const SkeletonPlaceholder: FC<SkeletonPlaceholderProps> = ({
+  itemWidth,
+  itemHeight,
+  itemCount = 1,
+  containerStyle,
+  itemStyle,
+  children,
+}) => {
+  const opacity = useRef(new Animated.Value(0.3));
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(opacity.current, {
+          toValue: 1,
+          useNativeDriver: true,
+          duration: 500,
+        }),
+        Animated.timing(opacity.current, {
+          toValue: 0.3,
+          useNativeDriver: true,
+          duration: 800,
+        }),
+      ])
+    ).start();
+  }, [opacity]);
+
+  const renderSkeletons = (children: React.ReactElement) => {
+    const skeletons = [];
+
+    for (let i = 0; i < itemCount; i++) {
+      skeletons.push(
+        <Animated.View
+          key={i}
+          style={[
+            {
+              width: itemWidth,
+              height: itemHeight,
+              opacity: opacity.current,
+              backgroundColor: '#EAEAEA',
+              borderRadius: 4,
+            },
+            itemStyle,
+          ]}
+        >
+          {children}
+        </Animated.View>
+      );
+    }
+
+    return skeletons;
+  };
+
+  return <View style={[containerStyle]}>{renderSkeletons(children)}</View>;
+};
+
+export default SkeletonPlaceholder;

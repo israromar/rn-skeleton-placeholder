@@ -1,20 +1,34 @@
-import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, type ViewStyle } from 'react-native';
 import { SkeletonPlaceholder } from 'rn-skeleton-placeholder';
 
-export default function App() {
-  return (
-    <View style={styles.mainContainer}>
-      <SkeletonPlaceholder
-        itemCount={6}
-        itemHeight={20}
-        itemWidth={136}
-        containerStyle={styles.container}
-        itemStyle={styles.item}
-      />
-    </View>
-  );
-}
+const App: React.FC = () => {
+  const renderSkeletons = () => {
+    const itemCount = 6;
+    const itemHeight = 20;
+    const itemWidth = 136;
+    const containerStyle: ViewStyle = styles.container;
+    const itemStyle: ViewStyle = styles.item;
+
+    const skeletons = [];
+
+    for (let i = 0; i < itemCount; i++) {
+      skeletons.push(
+        <SkeletonPlaceholder
+          key={i}
+          itemWidth={itemWidth}
+          itemHeight={itemHeight}
+          containerStyle={containerStyle}
+          itemStyle={itemStyle}
+        />
+      );
+    }
+
+    return skeletons;
+  };
+
+  return <View style={styles.mainContainer}>{renderSkeletons()}</View>;
+};
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -28,3 +42,5 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
 });
+
+export default App;

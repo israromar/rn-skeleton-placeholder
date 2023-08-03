@@ -1,27 +1,25 @@
-import React, { FC, useEffect, useRef } from 'react';
-import { Animated, View, ViewStyle } from 'react-native';
+import React, { type FC, useEffect, useRef } from 'react';
+import { Animated, View, type ViewStyle } from 'react-native';
 
 interface SkeletonPlaceholderProps {
-  itemWidth: number | string;
-  itemHeight: number | string;
+  itemWidth: number;
+  itemHeight: number;
   itemCount?: number;
   containerStyle?: ViewStyle;
   itemStyle?: ViewStyle;
-  children?: React.ReactElement;
 }
 
-export const SkeletonPlaceholder: FC<SkeletonPlaceholderProps> = ({
+const SkeletonPlaceholder: FC<SkeletonPlaceholderProps> = ({
   itemWidth,
   itemHeight,
   itemCount = 1,
   containerStyle,
   itemStyle,
-  children,
 }) => {
   const opacity = useRef(new Animated.Value(0.3));
 
   useEffect(() => {
-    Animated.loop(
+    const animation = Animated.loop(
       Animated.sequence([
         Animated.timing(opacity.current, {
           toValue: 1,
@@ -34,34 +32,41 @@ export const SkeletonPlaceholder: FC<SkeletonPlaceholderProps> = ({
           duration: 800,
         }),
       ])
-    ).start();
+    );
+
+    animation.start();
+
+    return () => {
+      animation.stop();
+    };
   }, [opacity]);
 
-  const renderSkeletons = (children: React.ReactElement) => {
+  const renderSkeletons = () => {
     const skeletons = [];
 
     for (let i = 0; i < itemCount; i++) {
       skeletons.push(
-        <Animated.View
-          key={i}
-          style={[
-            {
-              width: itemWidth,
-              height: itemHeight,
-              opacity: opacity.current,
-              backgroundColor: '#EAEAEA',
-              borderRadius: 4,
-            },
-            itemStyle,
-          ]}
-        >
-          {children}
-        </Animated.View>
+        <React.Fragment key={i}>
+          <Animated.View
+            style={[
+              {
+                width: itemWidth,
+                height: itemHeight,
+                opacity: opacity.current,
+                backgroundColor: '#EAEAEA',
+                borderRadius: 4,
+              },
+              itemStyle,
+            ]}
+          />
+        </React.Fragment>
       );
     }
 
     return skeletons;
   };
 
-  return <View style={[containerStyle]}>{renderSkeletons(children)}</View>;
+  return <View style={[containerStyle]}>{renderSkeletons()}</View>;
 };
+
+export default SkeletonPlaceholder;

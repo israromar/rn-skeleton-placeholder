@@ -1,6 +1,6 @@
 {
   "name": "rn-skeleton-placeholder",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Skeleton placeholder is a React Native library designed to effortlessly generate a captivating loading effect.",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

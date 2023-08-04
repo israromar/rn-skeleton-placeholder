@@ -86,7 +86,10 @@
   "resolutions": {
     "@types/react": "17.0.21"
   },
-  "peerDependencies": {},
+  "peerDependencies": {
+    "react": "18.2.0",
+    "react-native": "0.71.6"
+  },
   "engines": {
     "node": ">= 16.0.0"
   },
@@ -171,9 +174,5 @@
   },
   "directories": {
     "example": "example"
-  },
-  "dependencies": {
-    "react": "18.2.0",
-    "react-native": "0.71.6"
   }
 }

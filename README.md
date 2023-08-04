@@ -2,6 +2,8 @@
 
 SkeletonPlaceholder is a React Native library designed to effortlessly generate a captivating loading effect.
 
+![skeleton-placehplder-gif](https://i.ibb.co/cwP7twz/Simulator-Screen-Recording-i-Phone-14-Pro-2023-08-04-at-12-52-47.gif)
+
 ## Installation
 
 ```sh
@@ -11,36 +13,80 @@ npm install rn-skeleton-placeholder
 ## Usage
 
 ```js
-import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React from 'react';
+import { View, StyleSheet, SafeAreaView } from 'react-native';
 import { SkeletonPlaceholder } from 'rn-skeleton-placeholder';
 
-export default function App() {
+const SkeletonPlaceHolderExample: React.FC = () => {
   return (
-    <View style={styles.mainContainer}>
-      <SkeletonPlaceholder
-        itemCount={6}
-        itemHeight={20}
-        itemWidth={136}
-        containerStyle={styles.container}
-        itemStyle={styles.item}
-      />
+    <View style={styles.container}>
+      <SafeAreaView style={styles.iosStatusBarStyle} />
+      <>
+        <View style={styles.header}>
+          <SkeletonPlaceholder
+            itemWidth={128}
+            itemHeight={14}
+            itemStyle={{
+              borderRadius: 4,
+            }}
+          />
+          <SkeletonPlaceholder
+            itemWidth={52}
+            itemHeight={52}
+            itemStyle={{
+              borderRadius: 100,
+            }}
+          />
+        </View>
+        <SkeletonPlaceholder
+          itemCount={8}
+          itemWidth={160}
+          itemHeight={160}
+          containerStyle={styles.listContainer}
+          itemStyle={styles.itemStyle}
+        />
+      </>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  mainContainer: {
+  container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#fff',
   },
-  container: { marginTop: 8 },
-  item: {
-    borderRadius: 8,
-    marginVertical: 4,
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#04a8f4',
+    paddingBottom: 10,
+    paddingHorizontal: 22,
+    borderBottomLeftRadius: 22,
+    borderBottomRightRadius: 22,
+  },
+  iosStatusBarStyle: {
+    paddingTop: 10,
+    backgroundColor: '#04a8f4',
+  },
+  listContainer: {
+    marginTop: 22,
+    paddingBottom: 100,
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 22,
+  },
+  itemStyle: {
+    marginBottom: 8,
+    borderRadius: 22,
+  },
+  innerContainer: {
+    marginBottom: 62,
   },
 });
+
+export default SkeletonPlaceHolderExample;
 
 ```
 

@@ -41,7 +41,11 @@
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "android",
+    "loader",
+    "loading",
+    "skeleton",
+    "placeholder"
   ],
   "repository": {
     "type": "git",

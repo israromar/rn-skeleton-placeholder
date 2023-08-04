@@ -9,7 +9,7 @@ interface SkeletonPlaceholderProps {
   itemStyle?: ViewStyle;
 }
 
-const SkeletonPlaceholder: FC<SkeletonPlaceholderProps> = ({
+export const SkeletonPlaceholder: FC<SkeletonPlaceholderProps> = ({
   itemWidth,
   itemHeight,
   itemCount = 1,
@@ -68,5 +68,3 @@ const SkeletonPlaceholder: FC<SkeletonPlaceholderProps> = ({
 
   return <View style={[containerStyle]}>{renderSkeletons()}</View>;
 };
-
-export default SkeletonPlaceholder;
